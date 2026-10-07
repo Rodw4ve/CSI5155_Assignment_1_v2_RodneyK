@@ -176,3 +176,67 @@ Best score: 0.5781820275891908
 GradientBoosting GradientBoostingClassifier() {'models__n_estimators': [50, 100], 'models__learning_rate': [0.01, 0.1], 'models__max_depth': [3, 5]}
 Best Params: {'models__learning_rate': 0.1, 'models__max_depth': 3, 'models__n_estimators': 50}
 Best score: 0.5794095494469511
+
+
+full results, 
+LogisticRegression LogisticRegression() {'models__C': [0.1, 1.0, 10.0], 'models__solver': ['lbfgs', 'liblinear'], 'models__max_iter': [100, 500]}
+Best Params: {'models__C': 10.0, 'models__max_iter': 100, 'models__solver': 'liblinear'}
+Best score: 0.5905978729137848
+precision: 0.6905537459283387
+accuracy: 0.8076650106458482
+recall: 0.5463917525773195
+confusion matrix: 
+ [[926  95]
+ [176 212]]
+------------------------------
+DecisionTree DecisionTreeClassifier() {'models__max_depth': [None, 5, 10, 20], 'models__min_samples_split': [2, 5, 10]}
+Best Params: {'models__max_depth': 5, 'models__min_samples_split': 2}
+Best score: 0.5651138311126567
+precision: 0.6691176470588235
+accuracy: 0.7899219304471257
+recall: 0.4690721649484536
+confusion matrix: 
+ [[931  90]
+ [206 182]]
+------------------------------
+SupportVectorMachine SVC() {'models__C': [0.1, 1, 10], 'models__kernel': ['linear', 'rbf']}
+Best Params: {'models__C': 10, 'models__kernel': 'linear'}
+Best score: 0.5913287100549514
+precision: 0.6697819314641744
+accuracy: 0.8019872249822569
+recall: 0.5541237113402062
+confusion matrix: 
+ [[915 106]
+ [173 215]]
+------------------------------
+KNearestNeighbors KNeighborsClassifier() {'models__n_neighbors': [3, 5, 7, 9], 'models__weights': ['uniform', 'distance']}
+Best Params: {'models__n_neighbors': 9, 'models__weights': 'uniform'}
+Best score: 0.5441608451262984
+precision: 0.6409495548961425
+accuracy: 0.7920511000709723
+recall: 0.5567010309278351
+confusion matrix: 
+ [[900 121]
+ [172 216]]
+------------------------------
+RandomForest RandomForestClassifier() {'models__n_estimators': [50, 100, 200], 'models__max_depth': [None, 10, 20]}
+Best Params: {'models__max_depth': 10, 'models__n_estimators': 200}
+Best score: 0.5635582370177501
+precision: 0.6996587030716723
+accuracy: 0.8076650106458482
+recall: 0.5283505154639175
+confusion matrix: 
+ [[933  88]
+ [183 205]]
+------------------------------
+GradientBoosting GradientBoostingClassifier() {'models__n_estimators': [50, 100], 'models__learning_rate': [0.01, 0.1], 'models__max_depth': [3, 5]}
+Best Params: {'models__learning_rate': 0.1, 'models__max_depth': 5, 'models__n_estimators': 50}
+Best score: 0.5751743180670451
+precision: 0.6767676767676768
+accuracy: 0.7991483321504613
+recall: 0.5180412371134021
+confusion matrix: 
+ [[925  96]
+ [187 201]]
+------------------------------
+![alt text](Results/roc_curve.png)
