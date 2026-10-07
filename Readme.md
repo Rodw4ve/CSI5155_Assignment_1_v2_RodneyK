@@ -178,7 +178,67 @@ Best Params: {'models__learning_rate': 0.1, 'models__max_depth': 3, 'models__n_e
 Best score: 0.5794095494469511
 
 
-full results, 
+Baseline results:
+
+LogisticRegression LogisticRegression()
+BASELINE
+precision: 0.6885245901639344
+accuracy: 0.8062455642299503
+recall: 0.5412371134020618
+confusion matrix: 
+ [[926  95]
+ [178 210]]
+------------------------------
+DecisionTree DecisionTreeClassifier()
+BASELINE
+precision: 0.5326370757180157
+accuracy: 0.7423704755145494
+recall: 0.5257731958762887
+confusion matrix: 
+ [[842 179]
+ [184 204]]
+------------------------------
+SupportVectorMachine SVC()
+BASELINE
+precision: 0.7153558052434457
+accuracy: 0.8062455642299503
+recall: 0.49226804123711343
+confusion matrix: 
+ [[945  76]
+ [197 191]]
+------------------------------
+KNearestNeighbors KNeighborsClassifier()
+BASELINE
+precision: 0.6197604790419161
+accuracy: 0.7814052519517388
+recall: 0.5335051546391752
+confusion matrix: 
+ [[894 127]
+ [181 207]]
+------------------------------
+RandomForest RandomForestClassifier()
+BASELINE
+precision: 0.6630824372759857
+accuracy: 0.7892122072391767
+recall: 0.47680412371134023
+confusion matrix: 
+ [[927  94]
+ [203 185]]
+------------------------------
+GradientBoosting GradientBoostingClassifier()
+BASELINE
+precision: 0.6983606557377049
+accuracy: 0.8105039034776437
+recall: 0.5489690721649485
+confusion matrix: 
+ [[929  92]
+ [175 213]]
+------------------------------
+
+
+
+
+full results with gridsearch, 
 LogisticRegression LogisticRegression() {'models__C': [0.1, 1.0, 10.0], 'models__solver': ['lbfgs', 'liblinear'], 'models__max_iter': [100, 500]}
 Best Params: {'models__C': 10.0, 'models__max_iter': 100, 'models__solver': 'liblinear'}
 Best score: 0.5905978729137848
@@ -240,3 +300,6 @@ confusion matrix:
  [187 201]]
 ------------------------------
 ![alt text](Results/roc_curve.png)
+
+Part B: 
+

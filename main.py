@@ -98,6 +98,28 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_
 
 fig, ax = plt.subplots(figsize=(10, 8))
 
+#baseline
+for model_name, current_model in models.items():
+    
+    pipeline = Pipeline(
+        [("preprocessor", preprocessor), ("models", current_model)]
+    )
+    pipeline.fit(x_train, y_train)
+    prediction = pipeline.predict(x_test)
+    precision = precision_score(y_test, prediction)
+    accurary = accuracy_score(y_test, prediction)
+    recall = recall_score(y_test, prediction)
+    confusionMatrix = confusion_matrix(y_test, prediction)
+    RocCurveDisplay.from_estimator(pipeline, x_test, y_test, ax=ax, name=model_name)
+    print(model_name, model_name)
+    print("BASELINE")
+    print(f"precision: {precision}")
+    print(f"accuracy: {accurary}")
+    print(f"recall: {recall}")
+    print(f"confusion matrix: \n {confusionMatrix}")
+    print("-" * 30)
+    
+
 for model_name, current_model in models.items():
     
     pipeline = Pipeline(
