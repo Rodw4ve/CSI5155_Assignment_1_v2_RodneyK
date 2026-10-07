@@ -12,8 +12,10 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
+from sklearn.metrics import RocCurveDisplay, accuracy_score, precision_score, recall_score, confusion_matrix
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt 
+from sklearn.metrics import roc_curve
 
 
 data = pd.read_csv("data/customer-churn.csv")
@@ -92,7 +94,9 @@ preprocessor = ColumnTransformer(
     ]
 )
 
-x_train, x_test, y_train, y_test = train_test_split(test_size=0.2, random_state=7)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=7)
+
+fig, ax = plt.subplots(figsize=(10, 8))
 
 for model_name, current_model in models.items():
     
@@ -104,19 +108,29 @@ for model_name, current_model in models.items():
     print(model_name, current_model, current_hyperparemeters)
 
     grid_search = GridSearchCV(cv=crossValidation, estimator=pipeline, param_grid=current_hyperparemeters, n_jobs=-1, scoring="f1", error_score='raise')
-    grid_search.fit(x, y)
+    grid_search.fit(x_train, y_train)
+
+    prediction = grid_search.predict(x_test)
+
+
+    precision = precision_score(y_test, prediction)
+    accurary = accuracy_score(y_test, prediction)
+    recall = recall_score(y_test, prediction)
+    confusionMatrix = confusion_matrix(y_test, prediction)
+    RocCurveDisplay.from_estimator(grid_search, x_test, y_test, ax=ax, name=model_name)
+    
     print(f"Best Params: {grid_search.best_params_}")
     print(f"Best score: {grid_search.best_score_}")
+    print(f"precision: {precision}")
+    print(f"accuracy: {accurary}")
+    print(f"recall: {recall}")
+    print(f"confusion matrix: \n {confusionMatrix}")
+    print("-" * 30)
 
-
-
-
-
-
-
-
-
-
+plt.title("ROC Curves for All 6 Models")
+plt.plot([0, 1], [0, 1], linestyle='--', color='black') # Adds a diagonal 
+plt.savefig('results/roc_curve.png')
+plt.show()
 
 
 
