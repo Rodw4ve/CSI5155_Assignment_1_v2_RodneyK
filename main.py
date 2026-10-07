@@ -107,12 +107,12 @@ for model_name, current_model in models.items():
     
     print(model_name, current_model, current_hyperparemeters)
 
+    #hyperparameter tuning, finding my best model, testing my best model
     grid_search = GridSearchCV(cv=crossValidation, estimator=pipeline, param_grid=current_hyperparemeters, n_jobs=-1, scoring="f1", error_score='raise')
     grid_search.fit(x_train, y_train)
-
     prediction = grid_search.predict(x_test)
 
-
+    #metrics
     precision = precision_score(y_test, prediction)
     accurary = accuracy_score(y_test, prediction)
     recall = recall_score(y_test, prediction)
@@ -131,9 +131,6 @@ plt.title("ROC Curves for All 6 Models")
 plt.plot([0, 1], [0, 1], linestyle='--', color='black') # Adds a diagonal 
 plt.savefig('results/roc_curve.png')
 plt.show()
-
-
-
 
 
 
