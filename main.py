@@ -12,6 +12,9 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
+from sklearn.model_selection import train_test_split
+
 
 data = pd.read_csv("data/customer-churn.csv")
 data = data.drop(columns=["customerID"])
@@ -20,6 +23,7 @@ data["TotalCharges"] = pd.to_numeric(data["TotalCharges"], errors="coerce").fill
 )  # turn my bullshit invalid strings to NaN
 x = data.iloc[:, :-1]
 y = data["Churn"]
+y = data["Churn"].map({"Yes": 1, "No": 0})
 
 numbers = ["SeniorCitizen", "tenure", "MonthlyCharges"]
 categories = [
@@ -84,14 +88,39 @@ crossValidation = StratifiedKFold(
 preprocessor = ColumnTransformer(
     transformers=[
         ("numbers", StandardScaler(), numbers),
-        ("categories", OneHotEncoder, categories),
+        ("categories", OneHotEncoder(), categories),
     ]
 )
 
-pipeline = Pipeline(
-    [("preprocessor", preprocessor), ("models", models["LogisticRegression"])]
-)
-print(pipeline)
+x_train, x_test, y_train, y_test = train_test_split(test_size=0.2, random_state=7)
+
+for model_name, current_model in models.items():
+    
+    pipeline = Pipeline(
+        [("preprocessor", preprocessor), ("models", current_model)]
+    )
+    current_hyperparemeters = hyperparameters[model_name]
+    
+    print(model_name, current_model, current_hyperparemeters)
+
+    grid_search = GridSearchCV(cv=crossValidation, estimator=pipeline, param_grid=current_hyperparemeters, n_jobs=-1, scoring="f1", error_score='raise')
+    grid_search.fit(x, y)
+    print(f"Best Params: {grid_search.best_params_}")
+    print(f"Best score: {grid_search.best_score_}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # # class imbalacing -- undersampling, taking shit out, oversampling, creating fake shit using smote
