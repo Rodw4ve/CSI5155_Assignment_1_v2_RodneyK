@@ -15,7 +15,8 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import RocCurveDisplay, accuracy_score, precision_score, recall_score, confusion_matrix
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt 
-from sklearn.metrics import roc_curve
+from imblearn.over_sampling import SMOTE, RandomOverSampler
+from imblearn.under_sampling import RandomUnderSampler, TomekLinks
 
 
 data = pd.read_csv("data/customer-churn.csv")
@@ -98,7 +99,7 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_
 
 fig, ax = plt.subplots(figsize=(10, 8))
 
-#baseline
+#baseline WITH PREPROCESSING
 for model_name, current_model in models.items():
     
     pipeline = Pipeline(
@@ -112,13 +113,13 @@ for model_name, current_model in models.items():
     confusionMatrix = confusion_matrix(y_test, prediction)
     RocCurveDisplay.from_estimator(pipeline, x_test, y_test, ax=ax, name=model_name)
     print(model_name, model_name)
-    print("BASELINE")
+    print("BASELINE WITH PREPROCESSING")
     print(f"precision: {precision}")
     print(f"accuracy: {accurary}")
     print(f"recall: {recall}")
     print(f"confusion matrix: \n {confusionMatrix}")
     print("-" * 30)
-    
+
 
 for model_name, current_model in models.items():
     
@@ -153,9 +154,3 @@ plt.title("ROC Curves for All 6 Models")
 plt.plot([0, 1], [0, 1], linestyle='--', color='black') # Adds a diagonal 
 plt.savefig('results/roc_curve.png')
 plt.show()
-
-
-
-# # class imbalacing -- undersampling, taking shit out, oversampling, creating fake shit using smote
-# undersampling imbalancelearn undersampling
-# overampling imbalancelearn smote
