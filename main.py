@@ -15,9 +15,9 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import RocCurveDisplay, accuracy_score, precision_score, recall_score, confusion_matrix
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt 
-from imblearn.over_sampling import SMOTE, RandomOverSampler
-from imblearn.under_sampling import RandomUnderSampler, TomekLinks
-
+from imblearn.over_sampling import SMOTE
+from imblearn.under_sampling import RandomUnderSampler
+from imblearn.pipeline import Pipeline as ImbPipeline
 
 data = pd.read_csv("data/customer-churn.csv")
 data = data.drop(columns=["customerID"])
@@ -120,37 +120,51 @@ for model_name, current_model in models.items():
     print(f"confusion matrix: \n {confusionMatrix}")
     print("-" * 30)
 
-
-for model_name, current_model in models.items():
-    
-    pipeline = Pipeline(
-        [("preprocessor", preprocessor), ("models", current_model)]
-    )
-    current_hyperparemeters = hyperparameters[model_name]
-    
-    print(model_name, current_model, current_hyperparemeters)
-
-    #hyperparameter tuning, finding my best model, testing my best model
-    grid_search = GridSearchCV(cv=crossValidation, estimator=pipeline, param_grid=current_hyperparemeters, n_jobs=-1, scoring="f1", error_score='raise')
-    grid_search.fit(x_train, y_train)
-    prediction = grid_search.predict(x_test)
-
-    #metrics
-    precision = precision_score(y_test, prediction)
-    accurary = accuracy_score(y_test, prediction)
-    recall = recall_score(y_test, prediction)
-    confusionMatrix = confusion_matrix(y_test, prediction)
-    RocCurveDisplay.from_estimator(grid_search, x_test, y_test, ax=ax, name=model_name)
-    
-    print(f"Best Params: {grid_search.best_params_}")
-    print(f"Best score: {grid_search.best_score_}")
-    print(f"precision: {precision}")
-    print(f"accuracy: {accurary}")
-    print(f"recall: {recall}")
-    print(f"confusion matrix: \n {confusionMatrix}")
-    print("-" * 30)
-
-plt.title("ROC Curves for All 6 Models")
-plt.plot([0, 1], [0, 1], linestyle='--', color='black') # Adds a diagonal 
-plt.savefig('results/roc_curve.png')
+plt.title("ROC Curves - Baseline (No Resampling)")
+plt.plot([0, 1], [0, 1], linestyle='--', color='black')
+plt.savefig('results/roc_curve_baseline.png') # Fixed the missing ') here!
 plt.show()
+
+resamplingTechniques = {
+    "Undersampled" : RandomUnderSampler(random_state=7),
+    "Oversampled" : SMOTE(random_state=7)
+    }
+
+#running with resampling
+for technique_name, resampler in resamplingTechniques.items():
+    fig, ax = plt.subplots(figsize=(10, 8))
+    for model_name, current_model in models.items():
+        
+        pipeline = ImbPipeline(
+            [("preprocessor", preprocessor), ("resampler", resampler), ("models", current_model)]
+        )
+        current_hyperparemeters = hyperparameters[model_name]
+        
+        print(model_name, current_model, current_hyperparemeters, resampler)
+
+        #hyperparameter tuning, finding my best model, testing my best model
+        grid_search = GridSearchCV(cv=crossValidation, estimator=pipeline, param_grid=current_hyperparemeters, n_jobs=-1, scoring="f1", error_score='raise')
+        grid_search.fit(x_train, y_train)
+        prediction = grid_search.predict(x_test)
+
+        #metrics
+        precision = precision_score(y_test, prediction)
+        accurary = accuracy_score(y_test, prediction)
+        recall = recall_score(y_test, prediction)
+        confusionMatrix = confusion_matrix(y_test, prediction)
+        RocCurveDisplay.from_estimator(grid_search, x_test, y_test, ax=ax, name=model_name)
+        
+        print(f"Best Params: {grid_search.best_params_}")
+        print(f"Best score: {grid_search.best_score_}")
+        print(f"precision: {precision}")
+        print(f"accuracy: {accurary}")
+        print(f"recall: {recall}")
+        print(f"confusion matrix: \n {confusionMatrix}")
+        print("-" * 30)
+
+    plt.title(f"ROC Curves - {technique_name}")
+    plt.plot([0, 1], [0, 1], linestyle='--', color='black') 
+    plt.savefig(f'results/roc_curve_{technique_name}.png')
+    plt.show()
+
+

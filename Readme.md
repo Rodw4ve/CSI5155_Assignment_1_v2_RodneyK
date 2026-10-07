@@ -303,3 +303,183 @@ confusion matrix:
 
 Part B: 
 
+
+with smote for oversampling and randomundersampler for undersampling:
+
+LogisticRegression LogisticRegression
+BASELINE WITH PREPROCESSING
+precision: 0.6885245901639344
+accuracy: 0.8062455642299503
+recall: 0.5412371134020618
+confusion matrix: 
+ [[926  95]
+ [178 210]]
+------------------------------
+DecisionTree DecisionTree
+BASELINE WITH PREPROCESSING
+precision: 0.528
+accuracy: 0.7395315826827538
+recall: 0.5103092783505154
+confusion matrix: 
+ [[844 177]
+ [190 198]]
+------------------------------
+SupportVectorMachine SupportVectorMachine
+BASELINE WITH PREPROCESSING
+precision: 0.7153558052434457
+accuracy: 0.8062455642299503
+recall: 0.49226804123711343
+confusion matrix: 
+ [[945  76]
+ [197 191]]
+------------------------------
+KNearestNeighbors KNearestNeighbors
+BASELINE WITH PREPROCESSING
+precision: 0.6197604790419161
+accuracy: 0.7814052519517388
+recall: 0.5335051546391752
+confusion matrix: 
+ [[894 127]
+ [181 207]]
+------------------------------
+RandomForest RandomForest
+BASELINE WITH PREPROCESSING
+precision: 0.6548042704626335
+accuracy: 0.7863733144073811
+recall: 0.4742268041237113
+confusion matrix: 
+ [[924  97]
+ [204 184]]
+------------------------------
+GradientBoosting GradientBoosting
+BASELINE WITH PREPROCESSING
+precision: 0.6983606557377049
+accuracy: 0.8105039034776437
+recall: 0.5489690721649485
+confusion matrix: 
+ [[929  92]
+ [175 213]]
+------------------------------
+LogisticRegression LogisticRegression() {'models__C': [0.1, 1.0, 10.0], 'models__solver': ['lbfgs', 'liblinear'], 'models__max_iter': [100, 500]} RandomUnderSampler(random_state=7)
+Best Params: {'models__C': 10.0, 'models__max_iter': 100, 'models__solver': 'lbfgs'}
+Best score: 0.6218353517785641
+precision: 0.5281090289608177
+accuracy: 0.7480482611781405
+recall: 0.7989690721649485
+confusion matrix: 
+ [[744 277]
+ [ 78 310]]
+------------------------------
+DecisionTree DecisionTreeClassifier() {'models__max_depth': [None, 5, 10, 20], 'models__min_samples_split': [2, 5, 10]} RandomUnderSampler(random_state=7)
+Best Params: {'models__max_depth': 5, 'models__min_samples_split': 2}
+Best score: 0.6015578392463456
+precision: 0.5215146299483648
+accuracy: 0.7423704755145494
+recall: 0.7809278350515464
+confusion matrix: 
+ [[743 278]
+ [ 85 303]]
+------------------------------
+SupportVectorMachine SVC() {'models__C': [0.1, 1, 10], 'models__kernel': ['linear', 'rbf']} RandomUnderSampler(random_state=7)
+Best Params: {'models__C': 0.1, 'models__kernel': 'rbf'}
+Best score: 0.6120153773228191
+precision: 0.5250836120401338
+accuracy: 0.7459190915542938
+recall: 0.8092783505154639
+confusion matrix: 
+ [[737 284]
+ [ 74 314]]
+------------------------------
+KNearestNeighbors KNeighborsClassifier() {'models__n_neighbors': [3, 5, 7, 9], 'models__weights': ['uniform', 'distance']} RandomUnderSampler(random_state=7)
+Best Params: {'models__n_neighbors': 9, 'models__weights': 'uniform'}
+Best score: 0.5894912396341084
+precision: 0.484984984984985
+accuracy: 0.7104329311568488
+recall: 0.8324742268041238
+confusion matrix: 
+ [[678 343]
+ [ 65 323]]
+------------------------------
+RandomForest RandomForestClassifier() {'models__n_estimators': [50, 100, 200], 'models__max_depth': [None, 10, 20]} RandomUnderSampler(random_state=7)
+Best Params: {'models__max_depth': 10, 'models__n_estimators': 200}
+Best score: 0.6142824629997253
+precision: 0.5265866209262435
+accuracy: 0.7466288147622427
+recall: 0.7912371134020618
+confusion matrix: 
+ [[745 276]
+ [ 81 307]]
+------------------------------
+GradientBoosting GradientBoostingClassifier() {'models__n_estimators': [50, 100], 'models__learning_rate': [0.01, 0.1], 'models__max_depth': [3, 5]} RandomUnderSampler(random_state=7)
+Best Params: {'models__learning_rate': 0.1, 'models__max_depth': 3, 'models__n_estimators': 50}
+Best score: 0.6287275482551864
+precision: 0.5255972696245734
+accuracy: 0.7459190915542938
+recall: 0.7938144329896907
+confusion matrix: 
+ [[743 278]
+ [ 80 308]]
+------------------------------
+LogisticRegression LogisticRegression() {'models__C': [0.1, 1.0, 10.0], 'models__solver': ['lbfgs', 'liblinear'], 'models__max_iter': [100, 500]} SMOTE(random_state=7)
+Best Params: {'models__C': 10.0, 'models__max_iter': 100, 'models__solver': 'liblinear'}
+Best score: 0.6251266507681249
+precision: 0.5352112676056338
+accuracy: 0.7530163236337828
+recall: 0.7835051546391752
+confusion matrix: 
+ [[757 264]
+ [ 84 304]]
+------------------------------
+DecisionTree DecisionTreeClassifier() {'models__max_depth': [None, 5, 10, 20], 'models__min_samples_split': [2, 5, 10]} SMOTE(random_state=7)
+Best Params: {'models__max_depth': 5, 'models__min_samples_split': 2}
+Best score: 0.601974739332103
+precision: 0.5714285714285714
+accuracy: 0.7679205110007097
+recall: 0.6288659793814433
+confusion matrix: 
+ [[838 183]
+ [144 244]]
+------------------------------
+SupportVectorMachine SVC() {'models__C': [0.1, 1, 10], 'models__kernel': ['linear', 'rbf']} SMOTE(random_state=7)
+Best Params: {'models__C': 0.1, 'models__kernel': 'rbf'}
+Best score: 0.6159790935172736
+precision: 0.5420393559928444
+accuracy: 0.7579843860894251
+recall: 0.7809278350515464
+confusion matrix: 
+ [[765 256]
+ [ 85 303]]
+------------------------------
+KNearestNeighbors KNeighborsClassifier() {'models__n_neighbors': [3, 5, 7, 9], 'models__weights': ['uniform', 'distance']} SMOTE(random_state=7)
+Best Params: {'models__n_neighbors': 9, 'models__weights': 'uniform'}
+Best score: 0.5760102944505051
+precision: 0.47303543913713403
+accuracy: 0.6997870830376153
+recall: 0.7912371134020618
+confusion matrix: 
+ [[679 342]
+ [ 81 307]]
+------------------------------
+RandomForest RandomForestClassifier() {'models__n_estimators': [50, 100, 200], 'models__max_depth': [None, 10, 20]} SMOTE(random_state=7)
+Best Params: {'models__max_depth': 10, 'models__n_estimators': 200}
+Best score: 0.6124961634753502
+precision: 0.6064073226544623
+accuracy: 0.7906316536550745
+recall: 0.6829896907216495
+confusion matrix: 
+ [[849 172]
+ [123 265]]
+------------------------------
+GradientBoosting GradientBoostingClassifier() {'models__n_estimators': [50, 100], 'models__learning_rate': [0.01, 0.1], 'models__max_depth': [3, 5]} SMOTE(random_state=7)
+Best Params: {'models__learning_rate': 0.1, 'models__max_depth': 3, 'models__n_estimators': 50}
+Best score: 0.6310189189646138
+precision: 0.5813953488372093
+accuracy: 0.7792760823278921
+recall: 0.7087628865979382
+confusion matrix: 
+ [[823 198]
+ [113 275]]
+------------------------------
+![alt text](Results/roc_curve_baseline.png)
+![alt text](Results/roc_curve_Undersampled.png)
+![alt text](Results/roc_curve_Oversampled.png)
